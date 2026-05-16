@@ -9,6 +9,8 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     libssl-dev \
+    pkg-config \
+    libcurl4-openssl-dev \
     && a2enmod rewrite
 
 # Install PHP extensions
@@ -40,7 +42,7 @@ RUN sed -i 's/80/8080/g' /etc/apache2/sites-available/000-default.conf /etc/apac
 # Switch to the www-data user to install composer packages safely
 ENV COMPOSER_ALLOW_SUPERUSER=1
 # Install dependencies (skipping scripts to avoid artisan errors during build)
-RUN composer install --no-dev --optimize-autoloader --no-scripts
+RUN composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-req=ext-mongodb
 
 EXPOSE 8080
 CMD ["apache2-foreground"]
