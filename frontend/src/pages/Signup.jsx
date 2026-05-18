@@ -255,7 +255,7 @@ const Signup = () => {
                 <motion.button
                   whileHover={{ scale: 1.02, backgroundColor: '#f9fafb' }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => window.location.href = 'http://localhost:8000/api/auth/google'}
+                  onClick={() => window.location.href = `${import.meta.env.VITE_API_URL || 'https://servicehub-565o.onrender.com'}/api/auth/google`}
                   type="button"
                   className="mt-4 w-full py-2 bg-white border border-gray-300 text-slate-700 font-medium rounded shadow-sm transition-all flex items-center justify-center gap-2"
                 >

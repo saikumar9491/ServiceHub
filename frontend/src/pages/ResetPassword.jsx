@@ -32,7 +32,7 @@ const ResetPassword = () => {
     setResendMessage('');
     
     try {
-      await axios.post('http://localhost:8000/api/reset-password', { email, otp, password });
+      await axios.post('/api/reset-password', { email, otp, password });
       setSuccess(true);
       setTimeout(() => {
         navigate('/login');
@@ -49,7 +49,7 @@ const ResetPassword = () => {
     setError('');
     setResendMessage('');
     try {
-      await axios.post('http://localhost:8000/api/forgot-password', { email });
+      await axios.post('/api/forgot-password', { email });
       setResendMessage('A new OTP has been sent to your email!');
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to resend OTP');

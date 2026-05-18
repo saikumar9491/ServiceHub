@@ -16,7 +16,7 @@ const ForgotPassword = () => {
     setError('');
     
     try {
-      await axios.post('http://localhost:8000/api/forgot-password', { email });
+      await axios.post('/api/forgot-password', { email });
       navigate('/reset-password', { state: { email } });
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to send OTP');
