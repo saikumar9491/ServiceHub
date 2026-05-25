@@ -84,6 +84,25 @@ const Home = () => {
         });
       }
     });
+
+    // 5. Multi-Step Scroll Swap
+    const swapTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.features-swap-section',
+        start: 'top top',
+        end: '+=100%',
+        scrub: true,
+        pin: true,
+      }
+    });
+
+    swapTimeline.to('.features-row-1', {
+        opacity: 0, y: -50, duration: 0.4
+    }).fromTo('.features-row-2',
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, duration: 0.4 },
+        '-=0.2'
+    );
   }, { scope: containerRef });
 
   return (
@@ -154,6 +173,40 @@ const Home = () => {
                 </h3>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Morphing Features Swap Section */}
+      <section className="features-swap-section h-screen bg-white relative flex flex-col items-center justify-center overflow-hidden border-t border-slate-100">
+        <div className="text-center mb-16 relative z-10 w-full px-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Everything You Need</h2>
+          <p className="text-slate-500 text-xl">Seamlessly manage your home with one tap.</p>
+        </div>
+        
+        <div className="relative w-full max-w-5xl mx-auto h-[300px]">
+          {/* Row 1 */}
+          <div className="features-row-1 absolute inset-0 flex flex-col md:flex-row justify-center gap-8 px-6 w-full">
+             <div className="bg-indigo-50 rounded-[2rem] p-10 flex-1 border border-indigo-100 shadow-lg shadow-indigo-100/50">
+               <h3 className="text-3xl font-extrabold text-indigo-900 mb-4">Instant Quotes</h3>
+               <p className="text-indigo-700/80 text-lg leading-relaxed">Get upfront pricing instantly before you book. No hidden fees or surprises.</p>
+             </div>
+             <div className="bg-indigo-50 rounded-[2rem] p-10 flex-1 border border-indigo-100 shadow-lg shadow-indigo-100/50">
+               <h3 className="text-3xl font-extrabold text-indigo-900 mb-4">Live Tracking</h3>
+               <p className="text-indigo-700/80 text-lg leading-relaxed">Track your professional's arrival in real-time on the map.</p>
+             </div>
+          </div>
+          
+          {/* Row 2 */}
+          <div className="features-row-2 absolute inset-0 flex flex-col md:flex-row justify-center gap-8 px-6 w-full opacity-0 translate-y-[50px]">
+             <div className="bg-purple-50 rounded-[2rem] p-10 flex-1 border border-purple-100 shadow-lg shadow-purple-100/50">
+               <h3 className="text-3xl font-extrabold text-purple-900 mb-4">Cashless Payments</h3>
+               <p className="text-purple-700/80 text-lg leading-relaxed">Pay securely through the app only after the job is completed perfectly.</p>
+             </div>
+             <div className="bg-purple-50 rounded-[2rem] p-10 flex-1 border border-purple-100 shadow-lg shadow-purple-100/50">
+               <h3 className="text-3xl font-extrabold text-purple-900 mb-4">Digital Invoices</h3>
+               <p className="text-purple-700/80 text-lg leading-relaxed">Keep all your home maintenance records neatly organized in one place.</p>
+             </div>
           </div>
         </div>
       </section>
