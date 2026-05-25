@@ -26,24 +26,31 @@ const Home = () => {
   useGSAP(() => {
     // 1. Entrance Animations (Hero Stagger)
     const tl = gsap.timeline({ defaults: { ease: 'power4.out', duration: 1.2 } });
-    tl.from('.animate-hero-text', {
-      y: 40,
-      opacity: 0,
-      stagger: 0.15,
-    });
+    tl.fromTo('.animate-hero-text', 
+      { y: 40, opacity: 0 },
+      { y: 0, opacity: 1, stagger: 0.15 }
+    );
 
-    // 2. Premium Spread for Category Cards (from center out)
+    // 2. Premium Spread for Category Cards
     const cards = gsap.utils.toArray('.category-card');
-    gsap.from(cards, {
-      x: () => (Math.random() - 0.5) * window.innerWidth,
-      y: () => (Math.random() - 0.5) * 500,
-      scale: 0.2,
-      opacity: 0,
-      duration: 1.8,
-      ease: 'power4.out',
-      stagger: 0.05,
-      delay: 0.2,
-    });
+    gsap.fromTo(cards, 
+      {
+        x: () => (Math.random() - 0.5) * window.innerWidth,
+        y: () => (Math.random() - 0.5) * 500,
+        scale: 0.2,
+        opacity: 0,
+      },
+      {
+        x: 0,
+        y: 0,
+        scale: 1,
+        opacity: 1,
+        duration: 1.8,
+        ease: 'power4.out',
+        stagger: 0.05,
+        delay: 0.2,
+      }
+    );
 
     // 3. Idle Floating Animation for icons
     gsap.to('.float-icon', {
@@ -69,7 +76,7 @@ const Home = () => {
           ease: 'none',
           scrollTrigger: {
             trigger: badge,
-            start: 'top 120px', // When it hits the sticky point
+            start: 'top 120px', 
             endTrigger: badges[i + 1],
             end: 'top 120px',
             scrub: true,
@@ -82,7 +89,7 @@ const Home = () => {
   return (
     <div ref={containerRef} className="min-h-screen bg-[#f8fafc] font-sans">
       {/* Hero Section */}
-      <section className="relative pt-24 pb-32 overflow-hidden flex flex-col items-center justify-center min-h-[90vh]">
+      <section className="relative pt-32 pb-20 overflow-hidden flex flex-col items-center justify-start min-h-[90vh]">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[800px] bg-gradient-to-b from-indigo-100/60 to-transparent -z-10" />
         
         <div className="container mx-auto px-6 relative z-10">
