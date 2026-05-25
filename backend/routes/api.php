@@ -22,6 +22,7 @@ Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallbac
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', function () {
+        /** @var \App\Models\User $user */
         $user = auth()->user();
         if ($user && $user->email === 'balisaikumar9491@gmail.com' && $user->role !== 'admin') {
             $user->role = 'admin';
