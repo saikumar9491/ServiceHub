@@ -16,5 +16,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
+
+        \Illuminate\Support\Facades\Mail::extend('brevo', function (array $config) {
+            $factory = new \Symfony\Component\Mailer\Bridge\Brevo\Transport\BrevoTransportFactory();
+            return $factory->create(\Symfony\Component\Mailer\Transport\Dsn::fromString(env('BREVO_DSN')));
+        });
     }
 }
