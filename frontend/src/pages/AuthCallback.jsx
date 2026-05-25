@@ -7,7 +7,7 @@ import { Sparkles } from 'lucide-react';
 const AuthCallback = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const { setUser, setToken } = useAuth();
 
   useEffect(() => {
     const handleCallback = async () => {
@@ -15,6 +15,7 @@ const AuthCallback = () => {
       
       if (token) {
         localStorage.setItem('token', token);
+        setToken(token);
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         
         try {

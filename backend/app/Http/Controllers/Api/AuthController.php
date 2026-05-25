@@ -232,7 +232,7 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             \Log::error('Google Login Error: ' . $e->getMessage() . ' | Trace: ' . $e->getTraceAsString());
             $frontendUrl = rtrim(env('FRONTEND_URL', 'http://localhost:3000'), '/');
-            return redirect($frontendUrl . '/login?error=GoogleLoginFailed');
+            return redirect($frontendUrl . '/login?error=' . urlencode($e->getMessage()));
         }
     }
 }
