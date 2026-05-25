@@ -19,7 +19,15 @@ class AppServiceProvider extends ServiceProvider
 
         \Illuminate\Support\Facades\Mail::extend('brevo', function (array $config) {
             $factory = new \Symfony\Component\Mailer\Bridge\Brevo\Transport\BrevoTransportFactory();
-            return $factory->create(\Symfony\Component\Mailer\Transport\Dsn::fromString(env('BREVO_DSN')));
+            // Allow user to provide either the full DSN or just the raw API key
+            $apiKey = env('BREVO_API_KEY');
+            $dsnString = env('BREVO_DSN');
+            
+            if ($apiKey) {
+                $dsnString = 'brevo+api://' . $apiKey . '@default';
+            }
+            
+            return $factory->create(\Symfony\Component\Mailer\Transport\Dsn::fromString($dsnString ?: ''));
         });
     }
 }
