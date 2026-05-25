@@ -6,12 +6,16 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Http\\Controllers\\Api\\AdminUserController' => $baseDir . '/app/Http/Controllers/Api/AdminUserController.php',
     'App\\Http\\Controllers\\Api\\AuthController' => $baseDir . '/app/Http/Controllers/Api/AuthController.php',
+    'App\\Http\\Controllers\\Api\\BookingController' => $baseDir . '/app/Http/Controllers/Api/BookingController.php',
+    'App\\Http\\Controllers\\Api\\ProviderRequestController' => $baseDir . '/app/Http/Controllers/Api/ProviderRequestController.php',
     'App\\Http\\Controllers\\Api\\ServiceController' => $baseDir . '/app/Http/Controllers/Api/ServiceController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Models\\Booking' => $baseDir . '/app/Models/Booking.php',
     'App\\Models\\NewAccessToken' => $baseDir . '/app/Models/NewAccessToken.php',
     'App\\Models\\PersonalAccessToken' => $baseDir . '/app/Models/PersonalAccessToken.php',
+    'App\\Models\\ProviderRequest' => $baseDir . '/app/Models/ProviderRequest.php',
     'App\\Models\\Service' => $baseDir . '/app/Models/Service.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
     'App\\Providers\\AppServiceProvider' => $baseDir . '/app/Providers/AppServiceProvider.php',
@@ -6591,6 +6595,11 @@ return array(
     'Symfony\\Component\\HttpKernel\\Profiler\\ProfilerStorageInterface' => $vendorDir . '/symfony/http-kernel/Profiler/ProfilerStorageInterface.php',
     'Symfony\\Component\\HttpKernel\\RebootableInterface' => $vendorDir . '/symfony/http-kernel/RebootableInterface.php',
     'Symfony\\Component\\HttpKernel\\TerminableInterface' => $vendorDir . '/symfony/http-kernel/TerminableInterface.php',
+    'Symfony\\Component\\Mailer\\Bridge\\Brevo\\RemoteEvent\\BrevoPayloadConverter' => $vendorDir . '/symfony/brevo-mailer/RemoteEvent/BrevoPayloadConverter.php',
+    'Symfony\\Component\\Mailer\\Bridge\\Brevo\\Transport\\BrevoApiTransport' => $vendorDir . '/symfony/brevo-mailer/Transport/BrevoApiTransport.php',
+    'Symfony\\Component\\Mailer\\Bridge\\Brevo\\Transport\\BrevoSmtpTransport' => $vendorDir . '/symfony/brevo-mailer/Transport/BrevoSmtpTransport.php',
+    'Symfony\\Component\\Mailer\\Bridge\\Brevo\\Transport\\BrevoTransportFactory' => $vendorDir . '/symfony/brevo-mailer/Transport/BrevoTransportFactory.php',
+    'Symfony\\Component\\Mailer\\Bridge\\Brevo\\Webhook\\BrevoRequestParser' => $vendorDir . '/symfony/brevo-mailer/Webhook/BrevoRequestParser.php',
     'Symfony\\Component\\Mailer\\Command\\MailerTestCommand' => $vendorDir . '/symfony/mailer/Command/MailerTestCommand.php',
     'Symfony\\Component\\Mailer\\DataCollector\\MessageDataCollector' => $vendorDir . '/symfony/mailer/DataCollector/MessageDataCollector.php',
     'Symfony\\Component\\Mailer\\DelayedEnvelope' => $vendorDir . '/symfony/mailer/DelayedEnvelope.php',

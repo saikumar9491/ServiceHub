@@ -12,9 +12,9 @@ class ComposerStaticInit293d0e7d78b645c725685dc71e527936
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
+        'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
-        'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
@@ -87,6 +87,7 @@ class ComposerStaticInit293d0e7d78b645c725685dc71e527936
             'Symfony\\Component\\Routing\\' => 26,
             'Symfony\\Component\\Process\\' => 26,
             'Symfony\\Component\\Mime\\' => 23,
+            'Symfony\\Component\\Mailer\\Bridge\\Brevo\\' => 38,
             'Symfony\\Component\\Mailer\\' => 25,
             'Symfony\\Component\\HttpKernel\\' => 29,
             'Symfony\\Component\\HttpFoundation\\' => 33,
@@ -302,6 +303,10 @@ class ComposerStaticInit293d0e7d78b645c725685dc71e527936
         'Symfony\\Component\\Mime\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/mime',
+        ),
+        'Symfony\\Component\\Mailer\\Bridge\\Brevo\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/brevo-mailer',
         ),
         'Symfony\\Component\\Mailer\\' =>
         array (
@@ -592,12 +597,16 @@ class ComposerStaticInit293d0e7d78b645c725685dc71e527936
     );
 
     public static $classMap = array (
+        'App\\Http\\Controllers\\Api\\AdminUserController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/AdminUserController.php',
         'App\\Http\\Controllers\\Api\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/AuthController.php',
+        'App\\Http\\Controllers\\Api\\BookingController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/BookingController.php',
+        'App\\Http\\Controllers\\Api\\ProviderRequestController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/ProviderRequestController.php',
         'App\\Http\\Controllers\\Api\\ServiceController' => __DIR__ . '/../..' . '/app/Http/Controllers/Api/ServiceController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Models\\Booking' => __DIR__ . '/../..' . '/app/Models/Booking.php',
         'App\\Models\\NewAccessToken' => __DIR__ . '/../..' . '/app/Models/NewAccessToken.php',
         'App\\Models\\PersonalAccessToken' => __DIR__ . '/../..' . '/app/Models/PersonalAccessToken.php',
+        'App\\Models\\ProviderRequest' => __DIR__ . '/../..' . '/app/Models/ProviderRequest.php',
         'App\\Models\\Service' => __DIR__ . '/../..' . '/app/Models/Service.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
@@ -7177,6 +7186,11 @@ class ComposerStaticInit293d0e7d78b645c725685dc71e527936
         'Symfony\\Component\\HttpKernel\\Profiler\\ProfilerStorageInterface' => __DIR__ . '/..' . '/symfony/http-kernel/Profiler/ProfilerStorageInterface.php',
         'Symfony\\Component\\HttpKernel\\RebootableInterface' => __DIR__ . '/..' . '/symfony/http-kernel/RebootableInterface.php',
         'Symfony\\Component\\HttpKernel\\TerminableInterface' => __DIR__ . '/..' . '/symfony/http-kernel/TerminableInterface.php',
+        'Symfony\\Component\\Mailer\\Bridge\\Brevo\\RemoteEvent\\BrevoPayloadConverter' => __DIR__ . '/..' . '/symfony/brevo-mailer/RemoteEvent/BrevoPayloadConverter.php',
+        'Symfony\\Component\\Mailer\\Bridge\\Brevo\\Transport\\BrevoApiTransport' => __DIR__ . '/..' . '/symfony/brevo-mailer/Transport/BrevoApiTransport.php',
+        'Symfony\\Component\\Mailer\\Bridge\\Brevo\\Transport\\BrevoSmtpTransport' => __DIR__ . '/..' . '/symfony/brevo-mailer/Transport/BrevoSmtpTransport.php',
+        'Symfony\\Component\\Mailer\\Bridge\\Brevo\\Transport\\BrevoTransportFactory' => __DIR__ . '/..' . '/symfony/brevo-mailer/Transport/BrevoTransportFactory.php',
+        'Symfony\\Component\\Mailer\\Bridge\\Brevo\\Webhook\\BrevoRequestParser' => __DIR__ . '/..' . '/symfony/brevo-mailer/Webhook/BrevoRequestParser.php',
         'Symfony\\Component\\Mailer\\Command\\MailerTestCommand' => __DIR__ . '/..' . '/symfony/mailer/Command/MailerTestCommand.php',
         'Symfony\\Component\\Mailer\\DataCollector\\MessageDataCollector' => __DIR__ . '/..' . '/symfony/mailer/DataCollector/MessageDataCollector.php',
         'Symfony\\Component\\Mailer\\DelayedEnvelope' => __DIR__ . '/..' . '/symfony/mailer/DelayedEnvelope.php',
