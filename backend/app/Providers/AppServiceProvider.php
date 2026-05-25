@@ -19,12 +19,18 @@ class AppServiceProvider extends ServiceProvider
 
         \Illuminate\Support\Facades\Mail::extend('brevo', function (array $config) {
             $factory = new \Symfony\Component\Mailer\Bridge\Brevo\Transport\BrevoTransportFactory();
-            // Read from $config array because env() returns null when config is cached
+            
             $apiKey = $config['api_key'] ?? null;
             $dsnString = $config['dsn'] ?? null;
             
+            // If they put the raw key in BREVO_API_KEY
             if ($apiKey) {
                 $dsnString = 'brevo+api://' . $apiKey . '@default';
+            }
+            
+            // If they put the raw key in BREVO_DSN by mistake (no scheme)
+            if ($dsnString && !str_contains($dsnString, '://')) {
+                $dsnString = 'brevo+api://' . $dsnString . '@default';
             }
             
             if (!$dsnString) {
