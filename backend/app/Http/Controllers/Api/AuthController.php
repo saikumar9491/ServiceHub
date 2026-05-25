@@ -226,11 +226,13 @@ class AuthController extends Controller
             $token = $user->createToken('auth_token')->plainTextToken;
 
             // Redirect to frontend with token
-            return redirect(env('FRONTEND_URL', 'http://localhost:3000') . '/auth/callback?token=' . $token);
+            $frontendUrl = rtrim(env('FRONTEND_URL', 'http://localhost:3000'), '/');
+            return redirect($frontendUrl . '/auth/callback?token=' . $token);
 
         } catch (\Exception $e) {
             \Log::error('Google Login Error: ' . $e->getMessage() . ' | Trace: ' . $e->getTraceAsString());
-            return redirect(env('FRONTEND_URL', 'http://localhost:3000') . '/login?error=GoogleLoginFailed');
+            $frontendUrl = rtrim(env('FRONTEND_URL', 'http://localhost:3000'), '/');
+            return redirect($frontendUrl . '/login?error=GoogleLoginFailed');
         }
     }
 }
