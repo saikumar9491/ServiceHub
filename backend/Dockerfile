@@ -43,6 +43,10 @@ RUN sed -i 's/80/8080/g' /etc/apache2/sites-available/000-default.conf /etc/apac
 
 # Switch to the www-data user to install composer packages safely
 ENV COMPOSER_ALLOW_SUPERUSER=1
+
+# Clear any cached packages/services to avoid "Class not found" errors for dev packages
+RUN rm -f /var/www/html/bootstrap/cache/*.php
+
 # Install dependencies (skipping scripts to avoid artisan errors during build)
 RUN composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-req=ext-mongodb
 
