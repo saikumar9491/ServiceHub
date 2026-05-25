@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Search, Filter, Star, Clock, MapPin, ChevronRight, Sparkles } from 'lucide-react';
+import { Search, Filter, Star, Clock, MapPin, ChevronRight, Sparkles, Trash2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const categories = [
   'All', 'Electrician', 'Plumbing', 'Cleaning', 'AC Repair', 'Painting', 'Gardening'
@@ -14,6 +15,7 @@ const Services = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const { user, token } = useAuth();
 
   useEffect(() => {
     // Parse URL parameters
@@ -54,6 +56,21 @@ const Services = () => {
     const matchesSearch = service.service_name.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesSearch;
   });
+
+  const handleDeleteService = async (serviceId, e) => {
+    e.preventDefault(); // Prevent navigating to booking page if card is clicked
+    if (!window.confirm('Are you sure you want to delete this service?')) return;
+
+    try {
+      await axios.delete(`/api/admin/services/${serviceId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setServices(services.filter(s => (s._id || s.id) !== serviceId));
+    } catch (error) {
+      console.error('Error deleting service:', error);
+      alert('Failed to delete service. Make sure you are an admin.');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#f8fafc] pt-24 pb-20">
@@ -156,8 +173,19 @@ const Services = () => {
                       </div>
 
                       <div className="p-6 flex-1 flex flex-col justify-center relative">
-                        <div className="absolute top-6 right-6 hidden sm:flex px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-xs font-bold tracking-wide">
-                          {service.category}
+                        <div className="absolute top-6 right-6 flex items-center gap-2">
+                          <div className="hidden sm:flex px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-xs font-bold tracking-wide">
+                            {service.category}
+                          </div>
+                          {user?.role === 'admin' && (
+                            <button 
+                              onClick={(e) => handleDeleteService(service._id || service.id, e)}
+                              className="p-1.5 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white rounded-lg transition-colors"
+                              title="Delete Service"
+                            >
+                              <Trash2 size={16} />
+                            </button>
+                          )}
                         </div>
 
                         <div className="flex justify-between items-start mb-2 sm:pr-24">

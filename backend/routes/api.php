@@ -51,4 +51,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Services
     Route::post('/services', [ServiceController::class, 'store']);
+    Route::delete('/admin/services/{id}', [ServiceController::class, 'destroy']);
 });

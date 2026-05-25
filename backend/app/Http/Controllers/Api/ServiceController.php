@@ -46,4 +46,20 @@ class ServiceController extends Controller
 
         return response()->json(['message' => 'Service created successfully', 'service' => $service], 201);
     }
+
+    public function destroy($id)
+    {
+        $user = auth()->user();
+        if (!$user || $user->role !== 'admin') {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $service = Service::find($id);
+        if (!$service) {
+            return response()->json(['message' => 'Service not found'], 404);
+        }
+
+        $service->delete();
+        return response()->json(['message' => 'Service deleted successfully']);
+    }
 }
