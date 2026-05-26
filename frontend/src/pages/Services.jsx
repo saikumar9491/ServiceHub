@@ -15,6 +15,7 @@ const Services = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [locationQuery, setLocationQuery] = useState('');
   const { user, token } = useAuth();
 
   useEffect(() => {
@@ -22,12 +23,16 @@ const Services = () => {
     const params = new URLSearchParams(location.search);
     const categoryParam = params.get('category');
     const searchParam = params.get('search');
+    const locationParam = params.get('location');
     
     if (categoryParam && categories.includes(categoryParam)) {
       setSelectedCategory(categoryParam);
     }
     if (searchParam) {
       setSearchQuery(searchParam);
+    }
+    if (locationParam) {
+      setLocationQuery(locationParam);
     }
     
     fetchServices();
@@ -42,10 +47,10 @@ const Services = () => {
       console.error('Error fetching services:', error);
       // Fallback dummy data if API fails or is empty
       setServices([
-        { id: 1, service_name: 'Premium House Cleaning', category: 'Cleaning', price: 49.99, rating: 4.8, reviews_count: 124, image_url: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=400' },
-        { id: 2, service_name: 'Professional Electrician', category: 'Electrician', price: 35.00, rating: 4.9, reviews_count: 89, image_url: 'https://images.unsplash.com/photo-1621905252507-b354bc2d18c4?auto=format&fit=crop&q=80&w=400' },
-        { id: 3, service_name: 'Expert Plumbing Repair', category: 'Plumbing', price: 40.00, rating: 4.7, reviews_count: 56, image_url: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=400' },
-        { id: 4, service_name: 'AC Deep Cleaning', category: 'AC Repair', price: 55.00, rating: 4.6, reviews_count: 210, image_url: 'https://images.unsplash.com/photo-1563453392212-326f5e854473?auto=format&fit=crop&q=80&w=400' },
+        { id: 1, service_name: 'Premium House Cleaning', location: 'New York, NY', category: 'Cleaning', price: 49.99, rating: 4.8, reviews_count: 124, image_url: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=400' },
+        { id: 2, service_name: 'Professional Electrician', location: 'Los Angeles, CA', category: 'Electrician', price: 35.00, rating: 4.9, reviews_count: 89, image_url: 'https://images.unsplash.com/photo-1621905252507-b354bc2d18c4?auto=format&fit=crop&q=80&w=400' },
+        { id: 3, service_name: 'Expert Plumbing Repair', location: 'Chicago, IL', category: 'Plumbing', price: 40.00, rating: 4.7, reviews_count: 56, image_url: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=400' },
+        { id: 4, service_name: 'AC Deep Cleaning', location: 'Miami, FL', category: 'AC Repair', price: 55.00, rating: 4.6, reviews_count: 210, image_url: 'https://images.unsplash.com/photo-1563453392212-326f5e854473?auto=format&fit=crop&q=80&w=400' },
       ]);
       setLoading(false);
     }
@@ -54,7 +59,8 @@ const Services = () => {
   const filteredServices = services.filter(service => {
     const matchesCategory = selectedCategory === 'All' || service.category === selectedCategory;
     const matchesSearch = service.service_name.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    const matchesLocation = locationQuery === '' || (service.location || '').toLowerCase().includes(locationQuery.toLowerCase());
+    return matchesCategory && matchesSearch && matchesLocation;
   });
 
   const handleDeleteService = async (serviceId, e) => {
@@ -81,16 +87,27 @@ const Services = () => {
             <h1 className="text-4xl font-bold text-slate-900 mb-2">Explore Services</h1>
             <p className="text-slate-500">Find the right expert for your home needs</p>
           </div>
-          
-          <div className="w-full md:w-96 relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
-            <input 
-              type="text" 
-              placeholder="Search for services..." 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 bg-white border border-slate-100 rounded-2xl shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
-            />
+          <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+            <div className="w-full md:w-64 relative">
+              <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+              <input 
+                type="text" 
+                placeholder="Location..." 
+                value={locationQuery}
+                onChange={(e) => setLocationQuery(e.target.value)}
+                className="w-full pl-12 pr-4 py-4 bg-white border border-slate-100 rounded-2xl shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+              />
+            </div>
+            <div className="w-full md:w-80 relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+              <input 
+                type="text" 
+                placeholder="Search for services..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-12 pr-4 py-4 bg-white border border-slate-100 rounded-2xl shadow-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+              />
+            </div>
           </div>
         </div>
 

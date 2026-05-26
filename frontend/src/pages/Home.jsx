@@ -19,6 +19,7 @@ const categories = [
 
 const Home = () => {
   const [search, setSearch] = useState('');
+  const [locationInput, setLocationInput] = useState('');
   const { user } = useAuth();
   const navigate = useNavigate();
   const containerRef = useRef(null);
@@ -157,6 +158,8 @@ const Home = () => {
                 <input 
                   type="text" 
                   placeholder="Select your location..." 
+                  value={locationInput}
+                  onChange={(e) => setLocationInput(e.target.value)}
                   className="w-full py-4 bg-transparent border-none focus:ring-0 text-slate-800 text-lg placeholder:text-slate-400 outline-none"
                 />
               </div>
@@ -172,7 +175,7 @@ const Home = () => {
                 />
               </div>
               <Link 
-                to={search ? `/services?search=${search}` : `/services`}
+                to={`/services?search=${encodeURIComponent(search)}&location=${encodeURIComponent(locationInput)}`}
                 className="w-full xl:w-auto px-8 py-4 bg-slate-900 hover:bg-indigo-600 text-white font-bold rounded-2xl transition-colors duration-300 shadow-xl flex items-center justify-center text-lg mt-2 xl:mt-0"
               >
                 Explore
