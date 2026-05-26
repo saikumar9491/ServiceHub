@@ -152,16 +152,27 @@ const Home = () => {
             </h1>
 
             {/* Search Box */}
-            <div className="animate-hero-text bg-white/80 backdrop-blur-xl p-3 rounded-3xl shadow-2xl shadow-indigo-200/50 flex flex-col xl:flex-row items-center gap-2 border border-white">
+            <form 
+              onSubmit={(e) => { 
+                e.preventDefault(); 
+                navigate(`/services?search=${encodeURIComponent(search)}&location=${encodeURIComponent(locationInput)}`); 
+              }} 
+              className="animate-hero-text bg-white/80 backdrop-blur-xl p-3 rounded-3xl shadow-2xl shadow-indigo-200/50 flex flex-col xl:flex-row items-center gap-2 border border-white"
+            >
               <div className="flex-1 flex items-center gap-3 px-4 w-full">
                 <MapPin className="text-indigo-500" size={22} />
-                <input 
-                  type="text" 
-                  placeholder="Select your location..." 
+                <select 
                   value={locationInput}
                   onChange={(e) => setLocationInput(e.target.value)}
-                  className="w-full py-4 bg-transparent border-none focus:ring-0 text-slate-800 text-lg placeholder:text-slate-400 outline-none"
-                />
+                  className="w-full py-4 bg-transparent border-none focus:ring-0 text-slate-800 text-lg outline-none appearance-none cursor-pointer"
+                >
+                  <option value="" disabled className="text-slate-400">Select your location...</option>
+                  <option value="New York">New York</option>
+                  <option value="Los Angeles">Los Angeles</option>
+                  <option value="Chicago">Chicago</option>
+                  <option value="Miami">Miami</option>
+                  <option value="London">London</option>
+                </select>
               </div>
               <div className="hidden xl:block w-px h-10 bg-slate-200" />
               <div className="flex-[1.5] flex items-center gap-3 px-4 w-full border-t border-slate-100 xl:border-none pt-2 xl:pt-0">
@@ -174,13 +185,13 @@ const Home = () => {
                   className="w-full py-4 bg-transparent border-none focus:ring-0 text-slate-800 text-lg placeholder:text-slate-400 outline-none"
                 />
               </div>
-              <Link 
-                to={`/services?search=${encodeURIComponent(search)}&location=${encodeURIComponent(locationInput)}`}
-                className="w-full xl:w-auto px-8 py-4 bg-slate-900 hover:bg-indigo-600 text-white font-bold rounded-2xl transition-colors duration-300 shadow-xl flex items-center justify-center text-lg mt-2 xl:mt-0"
+              <button 
+                type="submit"
+                className="w-full xl:w-auto px-8 py-4 bg-slate-900 hover:bg-indigo-600 text-white font-bold rounded-2xl transition-colors duration-300 shadow-xl flex items-center justify-center text-lg mt-2 xl:mt-0 cursor-pointer"
               >
                 Explore
-              </Link>
-            </div>
+              </button>
+            </form>
           </div>
 
           {/* Right Column: The Animation */}
