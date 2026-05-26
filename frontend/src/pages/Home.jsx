@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Search, MapPin, Sparkles, ShieldCheck, Clock, Star } from 'lucide-react';
+import { Search, MapPin, Sparkles, ShieldCheck, Clock, Star, Home as HomeIcon, Wrench, Zap, Heart, BookOpen, Scale, Camera, Leaf } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import gsap from 'gsap';
@@ -111,24 +111,6 @@ const Home = () => {
       }
     });
 
-    // 5. Multi-Step Scroll Swap
-    const swapTimeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: '.features-swap-section',
-        start: 'top top',
-        end: '+=100%',
-        scrub: true,
-        pin: true,
-      }
-    });
-
-    swapTimeline.to('.features-row-1', {
-        opacity: 0, y: -50, duration: 0.4
-    }).fromTo('.features-row-2',
-        { opacity: 0, y: 50 },
-        { opacity: 1, y: 0, duration: 0.4 },
-        '-=0.2'
-    );
   }, { scope: containerRef });
 
   return (
@@ -233,36 +215,95 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Morphing Features Swap Section */}
-      <section className="features-swap-section h-screen bg-white relative flex flex-col items-center justify-center overflow-hidden border-t border-slate-100">
-        <div className="text-center mb-16 relative z-10 w-full px-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Everything You Need</h2>
-          <p className="text-slate-500 text-xl">Seamlessly manage your home with one tap.</p>
-        </div>
-        
-        <div className="relative w-full max-w-5xl mx-auto h-[300px]">
-          {/* Row 1 */}
-          <div className="features-row-1 absolute inset-0 flex flex-col md:flex-row justify-center gap-8 px-6 w-full">
-             <div className="bg-indigo-50 rounded-[2rem] p-10 flex-1 border border-indigo-100 shadow-lg shadow-indigo-100/50">
-               <h3 className="text-3xl font-extrabold text-indigo-900 mb-4">Instant Quotes</h3>
-               <p className="text-indigo-700/80 text-lg leading-relaxed">Get upfront pricing instantly before you book. No hidden fees or surprises.</p>
-             </div>
-             <div className="bg-indigo-50 rounded-[2rem] p-10 flex-1 border border-indigo-100 shadow-lg shadow-indigo-100/50">
-               <h3 className="text-3xl font-extrabold text-indigo-900 mb-4">Live Tracking</h3>
-               <p className="text-indigo-700/80 text-lg leading-relaxed">Track your professional's arrival in real-time on the map.</p>
-             </div>
+      {/* Browse Categories Section */}
+      <section className="bg-[#FAF8F5] py-24 border-t border-[#f0e9df]">
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
+            <div className="max-w-2xl">
+              <span className="text-[#B28D5D] font-bold tracking-widest text-sm uppercase mb-4 block">
+                Browse Categories
+              </span>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
+                Whatever You Need,<br/>We've Got You Covered
+              </h2>
+            </div>
+            <Link to="/services" className="inline-flex items-center text-slate-900 font-semibold hover:text-[#B28D5D] transition-colors mt-8 md:mt-0 text-lg">
+              View All <span className="ml-2">&rarr;</span>
+            </Link>
           </div>
-          
-          {/* Row 2 */}
-          <div className="features-row-2 absolute inset-0 flex flex-col md:flex-row justify-center gap-8 px-6 w-full opacity-0 translate-y-[50px]">
-             <div className="bg-purple-50 rounded-[2rem] p-10 flex-1 border border-purple-100 shadow-lg shadow-purple-100/50">
-               <h3 className="text-3xl font-extrabold text-purple-900 mb-4">Cashless Payments</h3>
-               <p className="text-purple-700/80 text-lg leading-relaxed">Pay securely through the app only after the job is completed perfectly.</p>
-             </div>
-             <div className="bg-purple-50 rounded-[2rem] p-10 flex-1 border border-purple-100 shadow-lg shadow-purple-100/50">
-               <h3 className="text-3xl font-extrabold text-purple-900 mb-4">Digital Invoices</h3>
-               <p className="text-purple-700/80 text-lg leading-relaxed">Keep all your home maintenance records neatly organized in one place.</p>
-             </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Category 1 */}
+            <Link to="/services?category=Cleaning" className="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+              <div className="w-16 h-16 rounded-2xl bg-cyan-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <HomeIcon className="w-8 h-8 text-cyan-600" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Home Cleaning</h3>
+              <p className="text-slate-500 font-medium">243 providers</p>
+            </Link>
+
+            {/* Category 2 */}
+            <Link to="/services?category=Plumbing" className="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+              <div className="w-16 h-16 rounded-2xl bg-orange-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Wrench className="w-8 h-8 text-orange-500" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Plumbing &amp; Repairs</h3>
+              <p className="text-slate-500 font-medium">189 providers</p>
+            </Link>
+
+            {/* Category 3 */}
+            <Link to="/services?category=Electrical" className="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+              <div className="w-16 h-16 rounded-2xl bg-indigo-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Zap className="w-8 h-8 text-amber-500" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Electrical Work</h3>
+              <p className="text-slate-500 font-medium">156 providers</p>
+            </Link>
+
+            {/* Category 4 */}
+            <Link to="/services?category=Healthcare" className="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+              <div className="w-16 h-16 rounded-2xl bg-pink-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Heart className="w-8 h-8 text-pink-500" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Healthcare &amp; Wellness</h3>
+              <p className="text-slate-500 font-medium">312 providers</p>
+            </Link>
+
+            {/* Category 5 */}
+            <Link to="/services?category=Tutoring" className="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+              <div className="w-16 h-16 rounded-2xl bg-lime-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <BookOpen className="w-8 h-8 text-emerald-600" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Tutoring &amp; Education</h3>
+              <p className="text-slate-500 font-medium">408 providers</p>
+            </Link>
+
+            {/* Category 6 */}
+            <Link to="/services?category=Legal" className="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+              <div className="w-16 h-16 rounded-2xl bg-purple-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Scale className="w-8 h-8 text-amber-500" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Legal Consultation</h3>
+              <p className="text-slate-500 font-medium">94 providers</p>
+            </Link>
+
+            {/* Category 7 */}
+            <Link to="/services?category=Photography" className="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+              <div className="w-16 h-16 rounded-2xl bg-amber-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Camera className="w-8 h-8 text-slate-700" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Photography</h3>
+              <p className="text-slate-500 font-medium">217 providers</p>
+            </Link>
+
+            {/* Category 8 */}
+            <Link to="/services?category=Landscaping" className="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+              <div className="w-16 h-16 rounded-2xl bg-emerald-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <Leaf className="w-8 h-8 text-emerald-500" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">Landscaping</h3>
+              <p className="text-slate-500 font-medium">133 providers</p>
+            </Link>
           </div>
         </div>
       </section>
