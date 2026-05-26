@@ -135,17 +135,19 @@ const Home = () => {
   return (
     <div ref={containerRef} className="min-h-screen bg-[#f8fafc] font-sans">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden flex flex-col items-center justify-start min-h-[90vh]">
+      <section className="relative pt-32 pb-20 overflow-hidden flex items-center min-h-[90vh]">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[800px] bg-gradient-to-b from-indigo-100/60 to-transparent -z-10" />
         
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center">
+        <div className="container mx-auto px-6 relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+          
+          {/* Left Column: The Matter */}
+          <div className="text-left">
             <div className="animate-hero-text inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white shadow-sm border border-indigo-50 text-indigo-600 text-sm font-semibold mb-8">
               <Sparkles size={16} />
               <span>Premium Services, Delivered</span>
             </div>
             
-            <h1 className="animate-hero-text text-6xl md:text-7xl font-extrabold text-slate-900 mb-8 leading-[1.1] tracking-tight">
+            <h1 className="animate-hero-text text-5xl lg:text-7xl font-extrabold text-slate-900 mb-8 leading-[1.1] tracking-tight">
               Book the best <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-500">
                 Local Experts
@@ -153,7 +155,7 @@ const Home = () => {
             </h1>
 
             {/* Search Box */}
-            <div className="animate-hero-text bg-white/80 backdrop-blur-xl p-3 rounded-3xl shadow-2xl shadow-indigo-200/50 flex flex-col md:flex-row items-center gap-2 border border-white">
+            <div className="animate-hero-text bg-white/80 backdrop-blur-xl p-3 rounded-3xl shadow-2xl shadow-indigo-200/50 flex flex-col xl:flex-row items-center gap-2 border border-white">
               <div className="flex-1 flex items-center gap-3 px-4 w-full">
                 <MapPin className="text-indigo-500" size={22} />
                 <input 
@@ -162,12 +164,12 @@ const Home = () => {
                   className="w-full py-4 bg-transparent border-none focus:ring-0 text-slate-800 text-lg placeholder:text-slate-400 outline-none"
                 />
               </div>
-              <div className="hidden md:block w-px h-10 bg-slate-200" />
-              <div className="flex-[1.5] flex items-center gap-3 px-4 w-full">
+              <div className="hidden xl:block w-px h-10 bg-slate-200" />
+              <div className="flex-[1.5] flex items-center gap-3 px-4 w-full border-t border-slate-100 xl:border-none pt-2 xl:pt-0">
                 <Search className="text-slate-400" size={22} />
                 <input 
                   type="text" 
-                  placeholder="What do you need help with?" 
+                  placeholder="What do you need?" 
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="w-full py-4 bg-transparent border-none focus:ring-0 text-slate-800 text-lg placeholder:text-slate-400 outline-none"
@@ -175,49 +177,48 @@ const Home = () => {
               </div>
               <Link 
                 to={search ? `/services?search=${search}` : `/services`}
-                className="w-full md:w-auto px-10 py-5 bg-slate-900 hover:bg-indigo-600 text-white font-bold rounded-2xl transition-colors duration-300 shadow-xl flex items-center justify-center text-lg"
+                className="w-full xl:w-auto px-8 py-4 bg-slate-900 hover:bg-indigo-600 text-white font-bold rounded-2xl transition-colors duration-300 shadow-xl flex items-center justify-center text-lg mt-2 xl:mt-0"
               >
                 Explore
               </Link>
             </div>
           </div>
-        </div>
 
-        {/* 6-Card Premium Grid (Spread & Collapse) */}
-        <div className="hero-grid-section container mx-auto px-6 mt-16 relative">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 relative w-full max-w-6xl mx-auto origin-point pointer-events-none">
-             
-             {/* Column 1 (Pushed down) */}
-             <div className="flex flex-col gap-6 md:gap-8 md:translate-y-16">
-                <div className="hero-card-wrapper w-full origin-card">
-                  <img src="https://images.unsplash.com/photo-1621905252507-b354bc2d18c4?auto=format&fit=crop&q=80&w=600" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[250px] md:h-[300px]" alt="Electrician" />
-                </div>
-                <div className="hero-card-wrapper w-full">
-                  <img src="https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=600" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[200px] md:h-[250px]" alt="Plumbing" />
-                </div>
-             </div>
-             
-             {/* Column 2 (Center, neutral) */}
-             <div className="flex flex-col gap-6 md:gap-8">
-                <div className="hero-card-wrapper w-full">
-                  <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=600" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[200px] md:h-[250px]" alt="Cleaning" />
-                </div>
-                <div className="hero-card-wrapper w-full">
-                  <img src="https://images.unsplash.com/photo-1563453392212-326f5e854473?auto=format&fit=crop&q=80&w=600" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[300px] md:h-[350px]" alt="AC Repair" />
-                </div>
-             </div>
-             
-             {/* Column 3 (Pushed up slightly) */}
-             <div className="flex flex-col gap-6 md:gap-8 md:-translate-y-8">
-                <div className="hero-card-wrapper w-full">
-                  <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=600" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[280px] md:h-[320px]" alt="Painting" />
-                </div>
-                <div className="hero-card-wrapper w-full">
-                  <img src="https://images.unsplash.com/photo-1416879598555-220b8f04771e?auto=format&fit=crop&q=80&w=600" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[180px] md:h-[220px]" alt="Gardening" />
-                </div>
-             </div>
-
+          {/* Right Column: The Animation */}
+          <div className="hero-grid-section relative w-full h-[500px] md:h-[600px] pointer-events-none mt-12 lg:mt-0">
+            <div className="grid grid-cols-3 gap-4 md:gap-6 relative w-full h-full origin-point">
+               {/* Column 1 (Pushed down) */}
+               <div className="flex flex-col gap-4 md:gap-6 translate-y-8 md:translate-y-12">
+                  <div className="hero-card-wrapper w-full origin-card">
+                    <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[150px] md:h-[200px]" alt="Cleaning" />
+                  </div>
+                  <div className="hero-card-wrapper w-full">
+                    <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[180px] md:h-[240px]" alt="Tools" />
+                  </div>
+               </div>
+               
+               {/* Column 2 (Center, neutral) */}
+               <div className="flex flex-col gap-4 md:gap-6 -translate-y-4 md:-translate-y-6">
+                  <div className="hero-card-wrapper w-full">
+                    <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[200px] md:h-[260px]" alt="Kitchen" />
+                  </div>
+                  <div className="hero-card-wrapper w-full">
+                    <img src="https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[140px] md:h-[180px]" alt="Plumbing" />
+                  </div>
+               </div>
+               
+               {/* Column 3 (Pushed up slightly) */}
+               <div className="flex flex-col gap-4 md:gap-6 translate-y-4 md:translate-y-8">
+                  <div className="hero-card-wrapper w-full">
+                    <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[160px] md:h-[220px]" alt="Painting" />
+                  </div>
+                  <div className="hero-card-wrapper w-full">
+                    <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[180px] md:h-[240px]" alt="Electrician" />
+                  </div>
+               </div>
+            </div>
           </div>
+
         </div>
       </section>
 
