@@ -37,57 +37,54 @@ const Home = () => {
     const originCard = document.querySelector('.origin-card');
 
     if (cardWrappers.length && originCard) {
-      // Small timeout to ensure layout is calculated before reading BoundingClientRect
-      setTimeout(() => {
-        const originRect = originCard.getBoundingClientRect();
-        
-        const cardData = cardWrappers.map(card => {
-          const rect = card.getBoundingClientRect();
-          return {
-            el: card,
-            dx: originRect.left - rect.left,
-            dy: originRect.top - rect.top,
-          };
-        });
+      const originRect = originCard.getBoundingClientRect();
+      
+      const cardData = cardWrappers.map(card => {
+        const rect = card.getBoundingClientRect();
+        return {
+          el: card,
+          dx: originRect.left - rect.left,
+          dy: originRect.top - rect.top,
+        };
+      });
 
-        // 1. Instantly Set Origin State to prevent flash
-        cardData.forEach(({ el, dx, dy }) => {
-          gsap.set(el, { x: dx, y: dy, scale: 0.9, opacity: 0 });
-        });
+      // 1. Instantly Set Origin State to prevent flash
+      cardData.forEach(({ el, dx, dy }) => {
+        gsap.set(el, { x: dx, y: dy, scale: 0.9, opacity: 0 });
+      });
 
-        // 2. Animate Outward (Entrance Spread)
-        const spreadTl = gsap.timeline({ defaults: { ease: 'power4.out', duration: 1.4 } });
-        cardData.forEach(({ el }, i) => {
-          spreadTl.to(el, { x: 0, y: 0, scale: 1, opacity: 1 }, 0.2 + (i * 0.05));
-        });
+      // 2. Animate Outward (Entrance Spread)
+      const spreadTl = gsap.timeline({ defaults: { ease: 'power4.out', duration: 1.4 } });
+      cardData.forEach(({ el }, i) => {
+        spreadTl.to(el, { x: 0, y: 0, scale: 1, opacity: 1 }, 0.2 + (i * 0.05));
+      });
 
-        // 3. Idle Floating on the INNER elements (so it doesn't conflict with ScrollTrigger)
-        inners.forEach((inner, i) => {
-          gsap.to(inner, {
-            yPercent: -4,
-            duration: 2.5 + (i * 0.2), // Organic variance
-            ease: "sine.inOut",
-            yoyo: true,
-            repeat: -1,
-            delay: spreadTl.duration() // Start floating after spread finishes
-          });
+      // 3. Idle Floating on the INNER elements (so it doesn't conflict with ScrollTrigger)
+      inners.forEach((inner, i) => {
+        gsap.to(inner, {
+          yPercent: -4,
+          duration: 2.5 + (i * 0.2), // Organic variance
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1,
+          delay: spreadTl.duration() // Start floating after spread finishes
         });
+      });
 
-        // 4. Scroll-Linked Collapse
-        const collapseTl = gsap.timeline({
-          scrollTrigger: {
-            trigger: '.hero-grid-section',
-            start: 'top 30%', // Start collapsing as user scrolls past hero
-            end: 'bottom top',
-            scrub: 1.2, // Smoothed scrubbing
-          }
-        });
-        
-        cardData.forEach(({ el, dx, dy }) => {
-          // Animate back to original stack coordinates
-          collapseTl.to(el, { x: dx, y: dy, scale: 0.9, opacity: 0, ease: 'power2.inOut' }, 0);
-        });
-      }, 100);
+      // 4. Scroll-Linked Collapse
+      const collapseTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.hero-grid-section',
+          start: 'top 30%', // Start collapsing as user scrolls past hero
+          end: 'bottom top',
+          scrub: 1.2, // Smoothed scrubbing
+        }
+      });
+      
+      cardData.forEach(({ el, dx, dy }) => {
+        // Animate back to original stack coordinates
+        collapseTl.to(el, { x: dx, y: dy, scale: 0.9, opacity: 0, ease: 'power2.inOut' }, 0);
+      });
     }
 
     // (Idle animation replaced by the one inside the block above)
