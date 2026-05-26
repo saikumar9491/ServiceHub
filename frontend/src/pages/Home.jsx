@@ -110,6 +110,21 @@ const Home = () => {
         });
       }
     });
+    // 5. Browse Categories Animation
+    gsap.fromTo('.category-card',
+      { opacity: 0, y: 50 },
+      { 
+        opacity: 1, 
+        y: 0, 
+        duration: 0.8, 
+        stagger: 0.1, 
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.browse-categories-section',
+          start: 'top 75%', // trigger when section is 75% visible
+        }
+      }
+    );
 
   }, { scope: containerRef });
 
@@ -216,14 +231,14 @@ const Home = () => {
       </section>
 
       {/* Browse Categories Section */}
-      <section className="bg-[#FAF8F5] py-24 border-t border-[#f0e9df]">
+      <section className="browse-categories-section bg-[#FAF8F5] py-24 border-t border-[#f0e9df]">
         <div className="container mx-auto px-6 max-w-7xl">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
             <div className="max-w-2xl">
               <span className="text-[#B28D5D] font-bold tracking-widest text-sm uppercase mb-4 block">
                 Browse Categories
               </span>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight" style={{ fontFamily: 'Georgia, serif' }}>
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight" style={{ fontFamily: '"DM Serif Display", serif' }}>
                 Whatever You Need,<br/>We've Got You Covered
               </h2>
             </div>
@@ -234,7 +249,7 @@ const Home = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Category 1 */}
-            <Link to="/services?category=Cleaning" className="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+            <Link to="/services?category=Cleaning" className="category-card opacity-0 bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
               <div className="w-16 h-16 rounded-2xl bg-cyan-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                 <HomeIcon className="w-8 h-8 text-cyan-600" />
               </div>
@@ -243,7 +258,7 @@ const Home = () => {
             </Link>
 
             {/* Category 2 */}
-            <Link to="/services?category=Plumbing" className="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+            <Link to="/services?category=Plumbing" className="category-card opacity-0 bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
               <div className="w-16 h-16 rounded-2xl bg-orange-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                 <Wrench className="w-8 h-8 text-orange-500" />
               </div>
@@ -252,7 +267,7 @@ const Home = () => {
             </Link>
 
             {/* Category 3 */}
-            <Link to="/services?category=Electrical" className="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+            <Link to="/services?category=Electrical" className="category-card opacity-0 bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
               <div className="w-16 h-16 rounded-2xl bg-indigo-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                 <Zap className="w-8 h-8 text-amber-500" />
               </div>
@@ -261,7 +276,7 @@ const Home = () => {
             </Link>
 
             {/* Category 4 */}
-            <Link to="/services?category=Healthcare" className="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+            <Link to="/services?category=Healthcare" className="category-card opacity-0 bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
               <div className="w-16 h-16 rounded-2xl bg-pink-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                 <Heart className="w-8 h-8 text-pink-500" />
               </div>
@@ -270,7 +285,7 @@ const Home = () => {
             </Link>
 
             {/* Category 5 */}
-            <Link to="/services?category=Tutoring" className="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+            <Link to="/services?category=Tutoring" className="category-card opacity-0 bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
               <div className="w-16 h-16 rounded-2xl bg-lime-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                 <BookOpen className="w-8 h-8 text-emerald-600" />
               </div>
@@ -279,7 +294,7 @@ const Home = () => {
             </Link>
 
             {/* Category 6 */}
-            <Link to="/services?category=Legal" className="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+            <Link to="/services?category=Legal" className="category-card opacity-0 bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
               <div className="w-16 h-16 rounded-2xl bg-purple-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                 <Scale className="w-8 h-8 text-amber-500" />
               </div>
@@ -288,7 +303,7 @@ const Home = () => {
             </Link>
 
             {/* Category 7 */}
-            <Link to="/services?category=Photography" className="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+            <Link to="/services?category=Photography" className="category-card opacity-0 bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
               <div className="w-16 h-16 rounded-2xl bg-amber-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                 <Camera className="w-8 h-8 text-slate-700" />
               </div>
@@ -297,7 +312,7 @@ const Home = () => {
             </Link>
 
             {/* Category 8 */}
-            <Link to="/services?category=Landscaping" className="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+            <Link to="/services?category=Landscaping" className="category-card opacity-0 bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
               <div className="w-16 h-16 rounded-2xl bg-emerald-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                 <Leaf className="w-8 h-8 text-emerald-500" />
               </div>
