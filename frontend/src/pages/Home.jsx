@@ -184,47 +184,47 @@ const Home = () => {
           </div>
 
           {/* Right Column: The Animation */}
-          <div className="hero-grid-section relative w-full h-[500px] md:h-[600px] pointer-events-none mt-12 lg:mt-0">
+          <div className="hero-grid-section relative w-full h-[500px] md:h-[600px] mt-12 lg:mt-0">
             <div className="grid grid-cols-3 gap-4 md:gap-6 relative w-full h-full origin-point">
                {/* Column 1 (Pushed down) */}
                <div className="flex flex-col gap-4 md:gap-6 translate-y-8 md:translate-y-12">
                   <div className="hero-card-collapse-wrapper w-full origin-card">
-                    <div className="hero-card-wrapper w-full">
-                      <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[150px] md:h-[200px]" alt="Cleaning" />
-                    </div>
+                    <Link to="/services?category=Cleaning" className="hero-card-wrapper w-full block cursor-pointer group">
+                      <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[150px] md:h-[200px] group-hover:shadow-indigo-500/30 transition-all duration-300" alt="Cleaning" />
+                    </Link>
                   </div>
                   <div className="hero-card-collapse-wrapper w-full">
-                    <div className="hero-card-wrapper w-full">
-                      <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[180px] md:h-[240px]" alt="Tools" />
-                    </div>
+                    <Link to="/services?category=Plumbing" className="hero-card-wrapper w-full block cursor-pointer group">
+                      <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[180px] md:h-[240px] group-hover:shadow-indigo-500/30 transition-all duration-300" alt="Tools" />
+                    </Link>
                   </div>
                </div>
                
                {/* Column 2 (Center, neutral) */}
                <div className="flex flex-col gap-4 md:gap-6 -translate-y-4 md:-translate-y-6">
                   <div className="hero-card-collapse-wrapper w-full">
-                    <div className="hero-card-wrapper w-full">
-                      <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[200px] md:h-[260px]" alt="Kitchen" />
-                    </div>
+                    <Link to="/services?category=Cleaning" className="hero-card-wrapper w-full block cursor-pointer group">
+                      <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[200px] md:h-[260px] group-hover:shadow-indigo-500/30 transition-all duration-300" alt="Kitchen" />
+                    </Link>
                   </div>
                   <div className="hero-card-collapse-wrapper w-full">
-                    <div className="hero-card-wrapper w-full">
-                      <img src="https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[140px] md:h-[180px]" alt="Plumbing" />
-                    </div>
+                    <Link to="/services?category=Plumbing" className="hero-card-wrapper w-full block cursor-pointer group">
+                      <img src="https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[140px] md:h-[180px] group-hover:shadow-indigo-500/30 transition-all duration-300" alt="Plumbing" />
+                    </Link>
                   </div>
                </div>
                
                {/* Column 3 (Pushed up slightly) */}
                <div className="flex flex-col gap-4 md:gap-6 translate-y-4 md:translate-y-8">
                   <div className="hero-card-collapse-wrapper w-full">
-                    <div className="hero-card-wrapper w-full">
-                      <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[160px] md:h-[220px]" alt="Painting" />
-                    </div>
+                    <Link to="/services?category=Painting" className="hero-card-wrapper w-full block cursor-pointer group">
+                      <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[160px] md:h-[220px] group-hover:shadow-indigo-500/30 transition-all duration-300" alt="Painting" />
+                    </Link>
                   </div>
                   <div className="hero-card-collapse-wrapper w-full">
-                    <div className="hero-card-wrapper w-full">
-                      <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[180px] md:h-[240px]" alt="Electrician" />
-                    </div>
+                    <Link to="/services?category=Electrician" className="hero-card-wrapper w-full block cursor-pointer group">
+                      <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[180px] md:h-[240px] group-hover:shadow-indigo-500/30 transition-all duration-300" alt="Electrician" />
+                    </Link>
                   </div>
                </div>
             </div>
