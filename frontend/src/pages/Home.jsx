@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Search, MapPin, Sparkles, ShieldCheck, Clock, Star, Home as HomeIcon, Wrench, Zap, Heart, BookOpen, Scale, Camera, Leaf } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -17,12 +17,41 @@ const categories = [
   { id: 6, name: 'Gardening', icon: '🌿', color: 'bg-green-100 text-green-600' },
 ];
 
+const commonServices = [
+  'House Cleaning', 'Deep Cleaning', 'Electrician', 'Plumbing Repair',
+  'AC Repair', 'Painting', 'Gardening', 'Pest Control', 'Carpentry'
+];
+
 const Home = () => {
   const [search, setSearch] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
   const [locationInput, setLocationInput] = useState('');
   const { user } = useAuth();
   const navigate = useNavigate();
   const containerRef = useRef(null);
+
+  useEffect(() => {
+    if (user) {
+      if (user.city || user.location) {
+        setLocationInput(user.city || user.location);
+      } else {
+        setLocationInput("New York"); // Default fallback for logged-in users
+      }
+    }
+  }, [user]);
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearch(value);
+    if (value.trim().length > 0) {
+      const filtered = commonServices.filter(s => s.toLowerCase().includes(value.toLowerCase()));
+      setSuggestions(filtered);
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
+  };
 
   useGSAP(() => {
     // 1. Entrance Animations (Hero Stagger)
@@ -175,15 +204,36 @@ const Home = () => {
                 </select>
               </div>
               <div className="hidden xl:block w-px h-10 bg-slate-200" />
-              <div className="flex-[1.5] flex items-center gap-3 px-4 w-full border-t border-slate-100 xl:border-none pt-2 xl:pt-0">
+              <div className="flex-[1.5] flex items-center gap-3 px-4 w-full border-t border-slate-100 xl:border-none pt-2 xl:pt-0 relative">
                 <Search className="text-slate-400" size={22} />
-                <input 
-                  type="text" 
-                  placeholder="What do you need?" 
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="w-full py-4 bg-transparent border-none focus:ring-0 text-slate-800 text-lg placeholder:text-slate-400 outline-none"
-                />
+                <div className="w-full relative">
+                  <input 
+                    type="text" 
+                    placeholder="What do you need?" 
+                    value={search}
+                    onChange={handleSearchChange}
+                    onFocus={() => search.trim().length > 0 && setShowSuggestions(true)}
+                    onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                    className="w-full py-4 bg-transparent border-none focus:ring-0 text-slate-800 text-lg placeholder:text-slate-400 outline-none"
+                  />
+                  {showSuggestions && suggestions.length > 0 && (
+                    <div className="absolute top-full left-0 w-full mt-2 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden z-50">
+                      {suggestions.map((s, i) => (
+                        <div 
+                          key={i} 
+                          className="px-4 py-3 hover:bg-indigo-50 cursor-pointer text-slate-700 transition-colors flex items-center"
+                          onClick={() => {
+                            setSearch(s);
+                            setShowSuggestions(false);
+                          }}
+                        >
+                          <Search size={16} className="mr-3 text-slate-400" />
+                          {s}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
               <button 
                 type="submit"
