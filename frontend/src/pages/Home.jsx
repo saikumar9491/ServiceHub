@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, MapPin, Sparkles, ShieldCheck, Clock, Star, Home as HomeIcon, Wrench, Zap, Heart, BookOpen, Scale, Camera, Leaf } from 'lucide-react';
+import { Search, MapPin, Locate, Sparkles, ShieldCheck, Clock, Star, Home as HomeIcon, Wrench, Zap, Heart, BookOpen, Scale, Camera, Leaf } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import axios from 'axios';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -31,15 +32,46 @@ const Home = () => {
   const navigate = useNavigate();
   const containerRef = useRef(null);
 
+  const [isLocating, setIsLocating] = useState(false);
+
   useEffect(() => {
     if (user) {
-      if (user.city || user.location) {
-        setLocationInput(user.city || user.location);
-      } else {
-        setLocationInput("New York"); // Default fallback for logged-in users
-      }
+      detectExactLocation();
     }
   }, [user]);
+
+  const detectExactLocation = () => {
+    if ("geolocation" in navigator) {
+      setIsLocating(true);
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          try {
+            const { latitude, longitude } = position.coords;
+            // Free Nominatim reverse geocoding API
+            const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+            if (response.data && response.data.display_name) {
+              // Extract a shorter version (e.g. city, state) if possible, or use full display_name
+              const address = response.data.address;
+              const shortLocation = address.city || address.town || address.village || address.state || response.data.display_name;
+              setLocationInput(shortLocation);
+            }
+          } catch (error) {
+            console.error("Error detecting exact location", error);
+            if (user?.city) setLocationInput(user.city);
+          } finally {
+            setIsLocating(false);
+          }
+        },
+        (error) => {
+          console.error("Geolocation denied or failed", error);
+          if (user?.city) setLocationInput(user.city);
+          setIsLocating(false);
+        }
+      );
+    } else {
+      if (user?.city) setLocationInput(user.city);
+    }
+  };
 
   const handleSearchChange = (e) => {
     const value = e.target.value;
@@ -188,20 +220,24 @@ const Home = () => {
               }} 
               className="animate-hero-text bg-white/80 backdrop-blur-xl p-3 rounded-3xl shadow-2xl shadow-indigo-200/50 flex flex-col xl:flex-row items-center gap-2 border border-white"
             >
-              <div className="flex-1 flex items-center gap-3 px-4 w-full">
+              <div className="flex-1 flex items-center gap-3 px-4 w-full relative group">
                 <MapPin className="text-indigo-500" size={22} />
-                <select 
+                <input 
+                  type="text" 
+                  placeholder="Select your location..." 
                   value={locationInput}
                   onChange={(e) => setLocationInput(e.target.value)}
-                  className="w-full py-4 bg-transparent border-none focus:ring-0 text-slate-800 text-lg outline-none appearance-none cursor-pointer"
+                  className="w-full py-4 bg-transparent border-none focus:ring-0 text-slate-800 text-lg placeholder:text-slate-400 outline-none pr-10"
+                />
+                <button 
+                  type="button"
+                  onClick={detectExactLocation}
+                  disabled={isLocating}
+                  className={`absolute right-4 p-2 rounded-full hover:bg-slate-100 transition-colors ${isLocating ? 'animate-pulse text-indigo-400' : 'text-slate-400 hover:text-indigo-600'}`}
+                  title="Detect my exact location"
                 >
-                  <option value="" disabled className="text-slate-400">Select your location...</option>
-                  <option value="New York">New York</option>
-                  <option value="Los Angeles">Los Angeles</option>
-                  <option value="Chicago">Chicago</option>
-                  <option value="Miami">Miami</option>
-                  <option value="London">London</option>
-                </select>
+                  <Locate size={20} className={isLocating ? 'animate-spin' : ''} />
+                </button>
               </div>
               <div className="hidden xl:block w-px h-10 bg-slate-200" />
               <div className="flex-[1.5] flex items-center gap-3 px-4 w-full border-t border-slate-100 xl:border-none pt-2 xl:pt-0 relative">
