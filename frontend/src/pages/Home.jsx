@@ -32,31 +32,33 @@ const Home = () => {
     );
 
     // 2. Premium 6-Card Spread & Collapse (from Master Prompt)
+    const collapseWrappers = gsap.utils.toArray('.hero-card-collapse-wrapper');
     const cardWrappers = gsap.utils.toArray('.hero-card-wrapper');
     const inners = gsap.utils.toArray('.hero-card-inner');
     const originCard = document.querySelector('.origin-card');
 
-    if (cardWrappers.length && originCard) {
+    if (collapseWrappers.length && originCard) {
       const originRect = originCard.getBoundingClientRect();
       
-      const cardData = cardWrappers.map(card => {
-        const rect = card.getBoundingClientRect();
+      const cardData = collapseWrappers.map((collapseEl, i) => {
+        const rect = collapseEl.getBoundingClientRect();
         return {
-          el: card,
+          collapseEl: collapseEl,
+          entranceEl: cardWrappers[i],
           dx: originRect.left - rect.left,
           dy: originRect.top - rect.top,
         };
       });
 
-      // 1. Instantly Set Origin State to prevent flash
-      cardData.forEach(({ el, dx, dy }) => {
-        gsap.set(el, { x: dx, y: dy, scale: 0.9, opacity: 0 });
+      // 1. Instantly Set Origin State to prevent flash (on the ENTRANCE wrapper)
+      cardData.forEach(({ entranceEl, dx, dy }) => {
+        gsap.set(entranceEl, { x: dx, y: dy, scale: 0.9, opacity: 0 });
       });
 
       // 2. Animate Outward (Entrance Spread)
       const spreadTl = gsap.timeline({ defaults: { ease: 'power4.out', duration: 1.4 } });
-      cardData.forEach(({ el }, i) => {
-        spreadTl.to(el, { x: 0, y: 0, scale: 1, opacity: 1 }, 0.2 + (i * 0.05));
+      cardData.forEach(({ entranceEl }, i) => {
+        spreadTl.to(entranceEl, { x: 0, y: 0, scale: 1, opacity: 1 }, 0.2 + (i * 0.05));
       });
 
       // 3. Idle Floating on the INNER elements (so it doesn't conflict with ScrollTrigger)
@@ -71,7 +73,7 @@ const Home = () => {
         });
       });
 
-      // 4. Scroll-Linked Collapse
+      // 4. Scroll-Linked Collapse (on the COLLAPSE wrapper)
       const collapseTl = gsap.timeline({
         scrollTrigger: {
           trigger: '.hero-grid-section',
@@ -81,9 +83,9 @@ const Home = () => {
         }
       });
       
-      cardData.forEach(({ el, dx, dy }) => {
-        // Animate back to original stack coordinates
-        collapseTl.to(el, { x: dx, y: dy, scale: 0.9, opacity: 0, ease: 'power2.inOut' }, 0);
+      cardData.forEach(({ collapseEl, dx, dy }) => {
+        // Animate back to original stack coordinates using the outer wrapper
+        collapseTl.to(collapseEl, { x: dx, y: dy, scale: 0.9, opacity: 0, ease: 'power2.inOut' }, 0);
       });
     }
 
@@ -186,31 +188,43 @@ const Home = () => {
             <div className="grid grid-cols-3 gap-4 md:gap-6 relative w-full h-full origin-point">
                {/* Column 1 (Pushed down) */}
                <div className="flex flex-col gap-4 md:gap-6 translate-y-8 md:translate-y-12">
-                  <div className="hero-card-wrapper w-full origin-card">
-                    <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[150px] md:h-[200px]" alt="Cleaning" />
+                  <div className="hero-card-collapse-wrapper w-full origin-card">
+                    <div className="hero-card-wrapper w-full">
+                      <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[150px] md:h-[200px]" alt="Cleaning" />
+                    </div>
                   </div>
-                  <div className="hero-card-wrapper w-full">
-                    <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[180px] md:h-[240px]" alt="Tools" />
+                  <div className="hero-card-collapse-wrapper w-full">
+                    <div className="hero-card-wrapper w-full">
+                      <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[180px] md:h-[240px]" alt="Tools" />
+                    </div>
                   </div>
                </div>
                
                {/* Column 2 (Center, neutral) */}
                <div className="flex flex-col gap-4 md:gap-6 -translate-y-4 md:-translate-y-6">
-                  <div className="hero-card-wrapper w-full">
-                    <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[200px] md:h-[260px]" alt="Kitchen" />
+                  <div className="hero-card-collapse-wrapper w-full">
+                    <div className="hero-card-wrapper w-full">
+                      <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[200px] md:h-[260px]" alt="Kitchen" />
+                    </div>
                   </div>
-                  <div className="hero-card-wrapper w-full">
-                    <img src="https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[140px] md:h-[180px]" alt="Plumbing" />
+                  <div className="hero-card-collapse-wrapper w-full">
+                    <div className="hero-card-wrapper w-full">
+                      <img src="https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[140px] md:h-[180px]" alt="Plumbing" />
+                    </div>
                   </div>
                </div>
                
                {/* Column 3 (Pushed up slightly) */}
                <div className="flex flex-col gap-4 md:gap-6 translate-y-4 md:translate-y-8">
-                  <div className="hero-card-wrapper w-full">
-                    <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[160px] md:h-[220px]" alt="Painting" />
+                  <div className="hero-card-collapse-wrapper w-full">
+                    <div className="hero-card-wrapper w-full">
+                      <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[160px] md:h-[220px]" alt="Painting" />
+                    </div>
                   </div>
-                  <div className="hero-card-wrapper w-full">
-                    <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[180px] md:h-[240px]" alt="Electrician" />
+                  <div className="hero-card-collapse-wrapper w-full">
+                    <div className="hero-card-wrapper w-full">
+                      <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=400" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[180px] md:h-[240px]" alt="Electrician" />
+                    </div>
                   </div>
                </div>
             </div>
