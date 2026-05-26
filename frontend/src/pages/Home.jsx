@@ -31,39 +31,66 @@ const Home = () => {
       { y: 0, opacity: 1, stagger: 0.15 }
     );
 
-    // 2. Premium Spread for Category Cards
-    const cards = gsap.utils.toArray('.category-card');
-    gsap.fromTo(cards, 
-      {
-        x: () => (Math.random() - 0.5) * window.innerWidth,
-        y: () => (Math.random() - 0.5) * 500,
-        scale: 0.2,
-        opacity: 0,
-      },
-      {
-        x: 0,
-        y: 0,
-        scale: 1,
-        opacity: 1,
-        duration: 1.8,
-        ease: 'power4.out',
-        stagger: 0.05,
-        delay: 0.2,
-      }
-    );
+    // 2. Premium 6-Card Spread & Collapse (from Master Prompt)
+    const cardWrappers = gsap.utils.toArray('.hero-card-wrapper');
+    const inners = gsap.utils.toArray('.hero-card-inner');
+    const originCard = document.querySelector('.origin-card');
 
-    // 3. Idle Floating Animation for icons
-    gsap.to('.float-icon', {
-      yPercent: -10,
-      duration: 2.5,
-      ease: 'sine.inOut',
-      yoyo: true,
-      repeat: -1,
-      stagger: {
-        each: 0.2,
-        from: 'random',
-      },
-    });
+    if (cardWrappers.length && originCard) {
+      // Small timeout to ensure layout is calculated before reading BoundingClientRect
+      setTimeout(() => {
+        const originRect = originCard.getBoundingClientRect();
+        
+        const cardData = cardWrappers.map(card => {
+          const rect = card.getBoundingClientRect();
+          return {
+            el: card,
+            dx: originRect.left - rect.left,
+            dy: originRect.top - rect.top,
+          };
+        });
+
+        // 1. Instantly Set Origin State to prevent flash
+        cardData.forEach(({ el, dx, dy }) => {
+          gsap.set(el, { x: dx, y: dy, scale: 0.9, opacity: 0 });
+        });
+
+        // 2. Animate Outward (Entrance Spread)
+        const spreadTl = gsap.timeline({ defaults: { ease: 'power4.out', duration: 1.4 } });
+        cardData.forEach(({ el }, i) => {
+          spreadTl.to(el, { x: 0, y: 0, scale: 1, opacity: 1 }, 0.2 + (i * 0.05));
+        });
+
+        // 3. Idle Floating on the INNER elements (so it doesn't conflict with ScrollTrigger)
+        inners.forEach((inner, i) => {
+          gsap.to(inner, {
+            yPercent: -4,
+            duration: 2.5 + (i * 0.2), // Organic variance
+            ease: "sine.inOut",
+            yoyo: true,
+            repeat: -1,
+            delay: spreadTl.duration() // Start floating after spread finishes
+          });
+        });
+
+        // 4. Scroll-Linked Collapse
+        const collapseTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: '.hero-grid-section',
+            start: 'top 30%', // Start collapsing as user scrolls past hero
+            end: 'bottom top',
+            scrub: 1.2, // Smoothed scrubbing
+          }
+        });
+        
+        cardData.forEach(({ el, dx, dy }) => {
+          // Animate back to original stack coordinates
+          collapseTl.to(el, { x: dx, y: dy, scale: 0.9, opacity: 0, ease: 'power2.inOut' }, 0);
+        });
+      }, 100);
+    }
+
+    // (Idle animation replaced by the one inside the block above)
 
     // 4. Sticky Stacking & Depth Recession Transitions
     const badges = gsap.utils.toArray('.trust-badge');
@@ -156,23 +183,40 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Dynamic Spread Categories */}
-        <div className="categories-section container mx-auto px-6 mt-24">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 relative">
-            {categories.map((cat) => (
-              <div
-                key={cat.id}
-                onClick={() => navigate(`/services?category=${encodeURIComponent(cat.name)}`)}
-                className="category-card group cursor-pointer bg-white/60 backdrop-blur-md border border-white rounded-3xl p-6 flex flex-col items-center justify-center hover:shadow-xl hover:bg-white transition-all duration-300"
-              >
-                <div className={`float-icon w-20 h-20 rounded-2xl ${cat.color} flex items-center justify-center text-4xl mb-6 shadow-inner`}>
-                  {cat.icon}
+        {/* 6-Card Premium Grid (Spread & Collapse) */}
+        <div className="hero-grid-section container mx-auto px-6 mt-16 relative">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 relative w-full max-w-6xl mx-auto origin-point pointer-events-none">
+             
+             {/* Column 1 (Pushed down) */}
+             <div className="flex flex-col gap-6 md:gap-8 md:translate-y-16">
+                <div className="hero-card-wrapper w-full origin-card">
+                  <img src="https://images.unsplash.com/photo-1621905252507-b354bc2d18c4?auto=format&fit=crop&q=80&w=600" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[250px] md:h-[300px]" alt="Electrician" />
                 </div>
-                <h3 className="text-center font-bold text-slate-800 text-lg">
-                  {cat.name}
-                </h3>
-              </div>
-            ))}
+                <div className="hero-card-wrapper w-full">
+                  <img src="https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=600" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[200px] md:h-[250px]" alt="Plumbing" />
+                </div>
+             </div>
+             
+             {/* Column 2 (Center, neutral) */}
+             <div className="flex flex-col gap-6 md:gap-8">
+                <div className="hero-card-wrapper w-full">
+                  <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=600" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[200px] md:h-[250px]" alt="Cleaning" />
+                </div>
+                <div className="hero-card-wrapper w-full">
+                  <img src="https://images.unsplash.com/photo-1563453392212-326f5e854473?auto=format&fit=crop&q=80&w=600" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[300px] md:h-[350px]" alt="AC Repair" />
+                </div>
+             </div>
+             
+             {/* Column 3 (Pushed up slightly) */}
+             <div className="flex flex-col gap-6 md:gap-8 md:-translate-y-8">
+                <div className="hero-card-wrapper w-full">
+                  <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=600" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[280px] md:h-[320px]" alt="Painting" />
+                </div>
+                <div className="hero-card-wrapper w-full">
+                  <img src="https://images.unsplash.com/photo-1416879598555-220b8f04771e?auto=format&fit=crop&q=80&w=600" className="hero-card-inner rounded-[2rem] shadow-2xl object-cover w-full h-[180px] md:h-[220px]" alt="Gardening" />
+                </div>
+             </div>
+
           </div>
         </div>
       </section>
