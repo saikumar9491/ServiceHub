@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Sparkles, User, LogOut, LayoutDashboard, ChevronDown } from 'lucide-react';
+import { Sparkles, User, LogOut, LayoutDashboard, ChevronDown, Menu, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
   const { user, logout, loading } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
@@ -85,12 +86,47 @@ const Navbar = () => {
             </div>
           ) : (
             <>
-              <Link to="/login" className="px-6 py-2.5 text-slate-700 font-bold hover:bg-slate-50 rounded-xl transition-all">Log In</Link>
-              <Link to="/signup" className="px-6 py-2.5 bg-indigo-600 text-white font-bold rounded-xl shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-95">Sign Up</Link>
+              <div className="hidden md:flex items-center gap-4">
+                <Link to="/login" className="px-6 py-2.5 text-slate-700 font-bold hover:bg-slate-50 rounded-xl transition-all">Log In</Link>
+                <Link to="/signup" className="px-6 py-2.5 bg-indigo-600 text-white font-bold rounded-xl shadow-lg shadow-indigo-100 hover:bg-indigo-700 transition-all active:scale-95">Sign Up</Link>
+              </div>
             </>
           )}
+
+          {/* Mobile Menu Toggle Button */}
+          <button 
+            className="md:hidden p-2 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-white border-b border-slate-100 overflow-hidden"
+          >
+            <div className="px-6 py-4 flex flex-col gap-4">
+              <Link to="/services" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-semibold py-2 hover:text-indigo-600">Find Services</Link>
+              <Link to="/become-provider" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-semibold py-2 hover:text-indigo-600">Become a Provider</Link>
+              <a href="#" onClick={() => setIsMobileMenuOpen(false)} className="text-slate-700 font-semibold py-2 hover:text-indigo-600">Help</a>
+              
+              {!user && !loading && (
+                <div className="flex flex-col gap-3 pt-4 border-t border-slate-100">
+                  <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className="w-full text-center px-6 py-3 text-slate-700 font-bold bg-slate-50 rounded-xl">Log In</Link>
+                  <Link to="/signup" onClick={() => setIsMobileMenuOpen(false)} className="w-full text-center px-6 py-3 bg-indigo-600 text-white font-bold rounded-xl">Sign Up</Link>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };

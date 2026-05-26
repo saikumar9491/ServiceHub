@@ -432,19 +432,19 @@ const Home = () => {
           </div>
           
           <div className="relative" style={{ height: '250vh' }}>
-            <div className="sticky top-[120px] trust-badge bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-[3rem] p-16 text-white shadow-2xl origin-top mb-[50vh] border border-indigo-400/20">
+            <div className="sticky top-[120px] trust-badge bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-[3rem] p-8 md:p-16 text-white shadow-2xl origin-top mb-[50vh] border border-indigo-400/20">
               <ShieldCheck size={56} className="mb-8 text-indigo-200" />
               <h3 className="text-4xl font-extrabold mb-6 tracking-tight">Verified Elite Experts</h3>
               <p className="text-indigo-100/80 text-xl leading-relaxed max-w-2xl">Every single professional on our platform undergoes a rigorous, world-class 5-step vetting process to ensure your absolute safety and satisfaction.</p>
             </div>
             
-            <div className="sticky top-[120px] trust-badge bg-gradient-to-br from-slate-800 to-slate-900 rounded-[3rem] p-16 text-white shadow-2xl origin-top mb-[50vh] border border-slate-700">
+            <div className="sticky top-[120px] trust-badge bg-gradient-to-br from-slate-800 to-slate-900 rounded-[3rem] p-8 md:p-16 text-white shadow-2xl origin-top mb-[50vh] border border-slate-700">
               <Clock size={56} className="mb-8 text-indigo-400" />
               <h3 className="text-4xl font-extrabold mb-6 tracking-tight">Lightning Fast Service</h3>
               <p className="text-slate-300 text-xl leading-relaxed max-w-2xl">Time is a luxury. Book within minutes and have a top-tier expert at your doorstep in under 60 minutes. No waiting, no hassle.</p>
             </div>
             
-            <div className="sticky top-[120px] trust-badge bg-white rounded-[3rem] p-16 text-slate-900 shadow-2xl origin-top border border-slate-100">
+            <div className="sticky top-[120px] trust-badge bg-white rounded-[3rem] p-8 md:p-16 text-slate-900 shadow-2xl origin-top border border-slate-100">
               <Star size={56} className="mb-8 text-amber-500" />
               <h3 className="text-4xl font-extrabold mb-6 tracking-tight">Perfection Guaranteed</h3>
               <p className="text-slate-600 text-xl leading-relaxed max-w-2xl">We hold ourselves to the highest standards. If you are not absolutely thrilled with the job, we will redo it perfectly or refund you instantly.</p>
